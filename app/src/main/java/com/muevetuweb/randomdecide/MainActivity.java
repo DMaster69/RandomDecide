@@ -1,6 +1,7 @@
 package com.muevetuweb.randomdecide;
 
 import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +28,7 @@ public class MainActivity extends ActionBarActivity {
     private ListView list;
     private Button btnAdd,btnRandomize;
     private EditText addText;
-    private TextView txvResp;
+    private TextView txvResp,txvRespFinal;
 
     private ImageView ivAnimacion;
     private AnimationDrawable savingAnimation;
@@ -41,6 +42,7 @@ public class MainActivity extends ActionBarActivity {
         ivAnimacion.setBackgroundResource(R.drawable.animacion);
         savingAnimation = (AnimationDrawable)ivAnimacion.getBackground();
         txvResp = (TextView)findViewById(R.id.txvRespuesta);
+        txvRespFinal = (TextView)findViewById(R.id.txvRespFinal);
 
         ivAnimacion.setVisibility(View.INVISIBLE);
 
@@ -63,21 +65,8 @@ public class MainActivity extends ActionBarActivity {
         btnRandomize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                txvResp.setText("");
-                txvResp.setVisibility(View.INVISIBLE);
-
-                ivAnimacion.setVisibility(View.VISIBLE);
-                savingAnimation.start();
-
-                int resp = decidiendo(listItems);
-
-                ivAnimacion.setVisibility(View.INVISIBLE);
-                savingAnimation.stop();
-
-                String dato = listItems.get(resp);
-                //Toast.makeText(getApplicationContext(),"el elegido fue " + dato,Toast.LENGTH_LONG).show();
-                txvResp.setText(dato);
-                txvResp.setVisibility(View.VISIBLE);
+                Decision respuesta = new Decision();
+                respuesta.execute(listItems);
             }
         });
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -102,22 +91,6 @@ public class MainActivity extends ActionBarActivity {
         adapter.notifyDataSetChanged();
     }
 
-    public int decidiendo(ArrayList<String> lista) {
-        try {
-            int total   =   lista.size();
-            Random r = new Random(System.currentTimeMillis());
-            int resp = r.nextInt(total);
-            Log.e("TAG","->"+resp);
-            Thread.sleep(4000);
-            return resp;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            return 0;
-        }
-
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -138,5 +111,60 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class Decision extends AsyncTask<ArrayList<String>, Integer, Integer> {
+
+        @Override
+        protected Integer doInBackground(ArrayList<String>... params) {
+
+            try {
+                Thread.sleep(3000);
+                int total   =   params[0].size();
+
+                Random r = new Random(System.currentTimeMillis());
+                return r.nextInt(total);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+            txvResp.setText("");
+            txvRespFinal.setText("");
+            txvResp.setVisibility(View.INVISIBLE);
+            txvRespFinal.setVisibility(View.INVISIBLE);
+
+            ivAnimacion.setVisibility(View.VISIBLE);
+            savingAnimation.start();
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+
+            String dato = listItems.get(result);
+
+            ivAnimacion.setVisibility(View.INVISIBLE);
+            savingAnimation.stop();
+
+            txvResp.setText("Me he decidido por");
+            txvRespFinal.setText(dato);
+            txvResp.setVisibility(View.VISIBLE);
+            txvRespFinal.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onCancelled() {
+            Toast.makeText(MainActivity.this, "Tarea cancelada!",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }
