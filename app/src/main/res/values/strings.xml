@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">RandomDecide</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Opciones</string>
+    <string name="add">Agregar</string>
+    <string name="decide">Decide por nosotros :)</string>
+    <string name="animacionDesc">Animación de carga</string>
+</resources>
