@@ -4,7 +4,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +22,7 @@ import java.util.Random;
 
 
 public class MainActivity extends ActionBarActivity {
-    ArrayList<String> listItems=new ArrayList<String>();
+    ArrayList<String> listItems=new ArrayList<>();
     ArrayAdapter<String> adapter;
 
     private ListView list;
@@ -46,7 +46,7 @@ public class MainActivity extends ActionBarActivity {
 
         ivAnimacion.setVisibility(View.INVISIBLE);
 
-        adapter=new ArrayAdapter<String>(this,
+        adapter=new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,
                 listItems);
 
@@ -97,7 +97,6 @@ public class MainActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -115,8 +114,9 @@ public class MainActivity extends ActionBarActivity {
 
     private class Decision extends AsyncTask<ArrayList<String>, Integer, Integer> {
 
+        @SafeVarargs
         @Override
-        protected Integer doInBackground(ArrayList<String>... params) {
+        protected final Integer doInBackground(ArrayList<String>... params) {
 
             try {
                 Thread.sleep(3000);
