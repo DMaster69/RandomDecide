@@ -2,6 +2,7 @@ package com.muevetuweb.randomdecide;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -32,6 +34,7 @@ public class MainActivity extends ActionBarActivity {
 
     private ImageView ivAnimacion;
     private AnimationDrawable savingAnimation;
+    private TextToSpeech ttobj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,16 @@ public class MainActivity extends ActionBarActivity {
                 return false;
             }
         });
+        ttobj=new TextToSpeech(getApplicationContext(),
+                new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int status) {
+                        if(status != TextToSpeech.ERROR){
+                            Locale loc = new Locale ("spa", "ESP");
+                            ttobj.setLanguage(loc);
+                        }
+                    }
+                });
     }
 
     public void addItems(View v) {
@@ -157,6 +170,9 @@ public class MainActivity extends ActionBarActivity {
 
             txvResp.setText("Me he decidido por");
             txvRespFinal.setText(dato);
+            if(ttobj != null) {
+                ttobj.speak(dato, TextToSpeech.QUEUE_FLUSH, null);
+            }
             txvResp.setVisibility(View.VISIBLE);
             txvRespFinal.setVisibility(View.VISIBLE);
         }
