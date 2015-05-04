@@ -69,6 +69,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Decision respuesta = new Decision();
+
                 respuesta.execute(listItems);
             }
         });
@@ -162,16 +163,23 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-
-            String dato = listItems.get(result);
-
             ivAnimacion.setVisibility(View.INVISIBLE);
             savingAnimation.stop();
+            if(listItems.size()>0) {
+                String dato = listItems.get(result);
 
-            txvResp.setText("Me he decidido por");
-            txvRespFinal.setText(dato);
-            if(ttobj != null) {
-                ttobj.speak(dato, TextToSpeech.QUEUE_FLUSH, null);
+                txvResp.setText("Me he decidido por");
+                txvRespFinal.setText(dato);
+                if (ttobj != null) {
+                    ttobj.speak(dato, TextToSpeech.QUEUE_FLUSH, null);
+                }
+            }else{
+                String msg = "No puedo decidir si no tengo opciones";
+                txvResp.setText("");
+                txvRespFinal.setText(msg);
+                if (ttobj != null) {
+                    ttobj.speak(msg, TextToSpeech.QUEUE_FLUSH, null);
+                }
             }
             txvResp.setVisibility(View.VISIBLE);
             txvRespFinal.setVisibility(View.VISIBLE);
