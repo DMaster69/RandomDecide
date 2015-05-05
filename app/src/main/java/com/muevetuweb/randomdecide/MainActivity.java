@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -69,7 +68,6 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Decision respuesta = new Decision();
-
                 respuesta.execute(listItems);
             }
         });
@@ -166,15 +164,15 @@ public class MainActivity extends ActionBarActivity {
             ivAnimacion.setVisibility(View.INVISIBLE);
             savingAnimation.stop();
             if(listItems.size()>0) {
-                String dato = listItems.get(result);
+                String answer   =   listItems.get(result);
 
-                txvResp.setText("Me he decidido por");
-                txvRespFinal.setText(dato);
+                txvResp.setText(getResources().getString(R.string.decide_ok));
+                txvRespFinal.setText(answer);
                 if (ttobj != null) {
-                    ttobj.speak(dato, TextToSpeech.QUEUE_FLUSH, null);
+                    ttobj.speak(answer, TextToSpeech.QUEUE_FLUSH, null);
                 }
             }else{
-                String msg = "No puedo decidir si no tengo opciones";
+                String msg = getResources().getString(R.string.decide_wrong);
                 txvResp.setText("");
                 txvRespFinal.setText(msg);
                 if (ttobj != null) {
@@ -187,8 +185,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected void onCancelled() {
-            Toast.makeText(MainActivity.this, "Tarea cancelada!",
-                    Toast.LENGTH_SHORT).show();
+
         }
     }
 }

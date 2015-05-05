@@ -1,9 +1,20 @@
 <resources>
-    <string name="app_name">RandomDecide</string>
+    <string name="app_name">Caracola</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Opciones</string>
     <string name="add">Agregar</string>
+
     <string name="decide">Decide por nosotros :)</string>
+    <string name="decide_wrong">No puedo decidir si no tengo opciones</string>
+    <string name="decide_ok">Me he decidido por</string>
+
     <string name="animacionDesc">Animación de carga</string>
+    <string name="default_widget_text">Solo si o no</string>
+    <string name="add_widget">Add widget</string>
+
+    <string-array name="default_list">
+        <item>Si</item>
+        <item>No</item>
+    </string-array>
 </resources>
