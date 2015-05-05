@@ -1,8 +1,5 @@
 package com.muevetuweb.randomdecide;
 
-/**
- * Created by cesar on 05-05-2015.
- */
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +9,6 @@ import java.util.Random;
 
 public class MyWidgetIntentReceiver extends BroadcastReceiver {
     public static int clickCount = 0;
-    private String msg[] = null;
     final static String WIDGET_UPDATE_ACTION ="com.muevetuweb.intent.action.UPDATE_WIDGET";
 
     @Override
@@ -21,6 +17,7 @@ public class MyWidgetIntentReceiver extends BroadcastReceiver {
             updateWidgetPictureAndButtonListener(context);
         }
     }
+
 
     private void updateWidgetPictureAndButtonListener(Context context) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
@@ -38,8 +35,11 @@ public class MyWidgetIntentReceiver extends BroadcastReceiver {
     }
 
     private String getRndResp(Context context) {
-        msg = context.getResources().getStringArray(R.array.default_list);
+        String[] msg = context.getResources().getStringArray(R.array.default_list);
         int total   =   msg.length;
+
+        AsyncDecision respuesta = new AsyncDecision(context,"Widget");
+        respuesta.execute(total);
 
         Random r = new Random(System.currentTimeMillis());
         return msg[r.nextInt(total)];

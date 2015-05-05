@@ -33,6 +33,7 @@ public class Caracola extends AppWidgetProvider {
         return PendingIntent.getBroadcast(context, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
     }
+
     private static CharSequence getDefaultText(Context context) {
         return context.getResources().getString(R.string.default_widget_text);
     }

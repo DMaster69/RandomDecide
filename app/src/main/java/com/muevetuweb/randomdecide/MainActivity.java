@@ -1,7 +1,6 @@
 package com.muevetuweb.randomdecide;
 
 import android.graphics.drawable.AnimationDrawable;
-import android.os.AsyncTask;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -19,21 +18,20 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Random;
 
 
 public class MainActivity extends ActionBarActivity {
-    ArrayList<String> listItems=new ArrayList<>();
+    public static ArrayList<String> listItems=new ArrayList<>();
     ArrayAdapter<String> adapter;
 
-    private ListView list;
-    private Button btnAdd,btnRandomize;
-    private EditText addText;
-    private TextView txvResp,txvRespFinal;
+    public static ListView list;
+    public static Button btnAdd,btnRandomize;
+    public static EditText addText;
+    public static TextView txvResp,txvRespFinal;
 
-    private ImageView ivAnimacion;
-    private AnimationDrawable savingAnimation;
-    private TextToSpeech ttobj;
+    public static ImageView ivAnimacion;
+    public static AnimationDrawable savingAnimation;
+    public static TextToSpeech ttobj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +65,11 @@ public class MainActivity extends ActionBarActivity {
         btnRandomize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Decision respuesta = new Decision();
-                respuesta.execute(listItems);
+                AsyncDecision respuesta = new AsyncDecision(getApplicationContext(),"MainActivity");
+                respuesta.execute(listItems.size());
             }
         });
+
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long arg3) {
@@ -79,6 +78,7 @@ public class MainActivity extends ActionBarActivity {
                 return false;
             }
         });
+
         ttobj=new TextToSpeech(getApplicationContext(),
                 new TextToSpeech.OnInitListener() {
                     @Override
@@ -124,68 +124,5 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class Decision extends AsyncTask<ArrayList<String>, Integer, Integer> {
 
-        @SafeVarargs
-        @Override
-        protected final Integer doInBackground(ArrayList<String>... params) {
-
-            try {
-                Thread.sleep(3000);
-                int total   =   params[0].size();
-
-                Random r = new Random(System.currentTimeMillis());
-                return r.nextInt(total);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return 0;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-
-            txvResp.setText("");
-            txvRespFinal.setText("");
-            txvResp.setVisibility(View.INVISIBLE);
-            txvRespFinal.setVisibility(View.INVISIBLE);
-
-            ivAnimacion.setVisibility(View.VISIBLE);
-            savingAnimation.start();
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            ivAnimacion.setVisibility(View.INVISIBLE);
-            savingAnimation.stop();
-            if(listItems.size()>0) {
-                String answer   =   listItems.get(result);
-
-                txvResp.setText(getResources().getString(R.string.decide_ok));
-                txvRespFinal.setText(answer);
-                if (ttobj != null) {
-                    ttobj.speak(answer, TextToSpeech.QUEUE_FLUSH, null);
-                }
-            }else{
-                String msg = getResources().getString(R.string.decide_wrong);
-                txvResp.setText("");
-                txvRespFinal.setText(msg);
-                if (ttobj != null) {
-                    ttobj.speak(msg, TextToSpeech.QUEUE_FLUSH, null);
-                }
-            }
-            txvResp.setVisibility(View.VISIBLE);
-            txvRespFinal.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected void onCancelled() {
-
-        }
-    }
 }
