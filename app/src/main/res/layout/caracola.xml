@@ -2,24 +2,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/widget_margin"
-    android:background="#09C"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/appwidget_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorAccent"
         android:textSize="24sp"
         android:textStyle="bold|italic"
         android:layout_margin="8dp"
-        android:background="#09C"
+        android:background="@color/colorPrimary"
         android:gravity="center|center_vertical|center_horizontal" />
 
     <Button
+        android:id="@+id/btnWidget"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/decide"
-        android:id="@+id/btnWidget" />
+        android:textColor="?android:attr/textColorTertiary" />
 
 </LinearLayout>

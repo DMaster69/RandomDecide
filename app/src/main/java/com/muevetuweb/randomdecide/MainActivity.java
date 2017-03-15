@@ -2,9 +2,11 @@ package com.muevetuweb.randomdecide;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.speech.tts.TextToSpeech;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
+import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     public static ArrayList<String> listItems=new ArrayList<>();
     ArrayAdapter<String> adapter;
 
@@ -89,11 +91,35 @@ public class MainActivity extends ActionBarActivity {
                         }
                     }
                 });
+        addText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if(s.length() != 0 || listItems.size() != 0)
+                    btnRandomize.setText(R.string.decide);
+                else
+                    btnRandomize.setText(R.string.decide_random);
+            }
+        });
     }
 
     public void addItems(View v) {
         String nuevo = addText.getText().toString();
         if(!nuevo.isEmpty()){
+            if (btnRandomize.getText().equals(R.string.decide_random)) {
+                btnRandomize.setText(R.string.decide);
+            } else {
+                btnRandomize.setText(R.string.decide_random);
+            }
             listItems.add(nuevo);
             adapter.notifyDataSetChanged();
 
@@ -103,6 +129,7 @@ public class MainActivity extends ActionBarActivity {
         adapter.notifyDataSetChanged();
     }
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -123,6 +150,6 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
+    */
 
 }

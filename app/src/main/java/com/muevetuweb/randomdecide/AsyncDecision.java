@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class AsyncDecision  extends AsyncTask<Integer, Integer, Integer> {
@@ -36,6 +37,10 @@ public class AsyncDecision  extends AsyncTask<Integer, Integer, Integer> {
             Thread.sleep(3000);
             int total   =   params[0];
 
+            if (total == 0){
+                total = mContext.getResources().getStringArray(R.array.default_options).length;
+            }
+
             Random r = new Random(System.currentTimeMillis());
             result  = r.nextInt(total);
             return result;
@@ -61,7 +66,8 @@ public class AsyncDecision  extends AsyncTask<Integer, Integer, Integer> {
                 MainActivity.txvRespFinal.setText(answer);
 
             }else{
-                answer = mContext.getResources().getString(R.string.decide_wrong);
+                //answer = mContext.getResources().getString(R.string.decide_wrong);
+                answer = Arrays.asList(mContext.getResources().getStringArray(R.array.default_options)).get(result);
                 MainActivity.txvResp.setText("");
                 MainActivity.txvRespFinal.setText(answer);
 

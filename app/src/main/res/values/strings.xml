@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">Caracola</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Opciones</string>
     <string name="add">Agregar</string>
-
     <string name="decide">Decide por nosotros :)</string>
+    <string name="decide_random">¿Qué hago?</string>
     <string name="decide_wrong">No puedo decidir si no tengo opciones</string>
     <string name="decide_ok">Me he decidido por</string>
 
@@ -16,5 +14,14 @@
     <string-array name="default_list">
         <item>Si</item>
         <item>No</item>
+    </string-array>
+
+    <string-array name="default_options">
+        <item>Si</item>
+        <item>No</item>
+        <item>Tal vez</item>
+        <item>Absolutamente</item>
+        <item>De ninguna manera</item>
+        <item>Preguntale a un amigo</item>
     </string-array>
 </resources>
